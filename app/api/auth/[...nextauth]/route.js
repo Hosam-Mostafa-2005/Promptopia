@@ -13,14 +13,12 @@ const handler = NextAuth({
 
   callbacks: {
     async session({ session }) {
-      // تأكد من الاتصال بقاعدة البيانات
       await connectToDb();
 
       const sessionUser = await User.findOne({
         email: session.user.email,
       });
 
-      // ضيف الـ user id داخل السيشن
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
       }
